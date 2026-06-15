@@ -26,8 +26,8 @@
   .streak-fire { font-size: 22px; }
   .streak-text { font-size: 13px; font-weight: 600; }
   .streak-sub { font-size: 11px; color: var(--ink-soft); }
-  .tabs { max-width: 480px; margin: 0 auto 16px; display: flex; gap: 4px; }
-  .tab { flex: 1; padding: 8px 2px; border: 1px solid var(--rule); border-radius: 10px; background: var(--surface); font-size: 10px; font-weight: 600; color: var(--ink-soft); cursor: pointer; text-align: center; transition: all .15s; }
+  .tabs { max-width: 480px; margin: 0 auto 16px; display: flex; gap: 3px; }
+  .tab { flex: 1; padding: 7px 1px; border: 1px solid var(--rule); border-radius: 10px; background: var(--surface); font-size: 9px; font-weight: 600; color: var(--ink-soft); cursor: pointer; text-align: center; transition: all .15s; }
   .tab.active { background: var(--ink); color: #fff; border-color: var(--ink); }
   .grid { max-width: 480px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
   .tab-panel { display: none; flex-direction: column; gap: 14px; }
@@ -98,7 +98,7 @@
   .badge-me { background: var(--accent-light); color: var(--accent); }
   .badge-both { background: #FFF3E0; color: var(--patrik); }
   .cat-badge { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 99px; }
-  .tx-list { display: flex; flex-direction: column; gap: 4px; max-height: 260px; overflow-y: auto; }
+  .tx-list { display: flex; flex-direction: column; gap: 4px; max-height: 360px; overflow-y: auto; }
   .tx-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 10px; border-radius: 8px; font-size: 13px; background: var(--bg); gap: 6px; }
   .tx-left { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
   .tx-desc { color: var(--ink); font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px; }
@@ -108,6 +108,10 @@
   .tx-edit { background: var(--accent-light); border: none; color: var(--accent); cursor: pointer; font-size: 11px; padding: 4px 8px; border-radius: 6px; font-weight: 600; }
   .tx-delete { background: var(--red-light); border: none; color: var(--red); cursor: pointer; font-size: 11px; padding: 4px 8px; border-radius: 6px; font-weight: 600; }
   .tx-empty { text-align: center; color: var(--ink-faint); font-size: 13px; padding: 20px 0; }
+  .tx-date-group { margin-bottom: 10px; }
+  .tx-date-header { display: flex; justify-content: space-between; align-items: center; padding: 6px 10px; background: var(--accent-light); border-radius: 8px; margin-bottom: 4px; }
+  .tx-date-label { font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 600; color: var(--accent); }
+  .tx-date-total { font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 600; color: var(--accent); }
   .fixed-list { display: flex; flex-direction: column; gap: 8px; }
   .fixed-item { display: flex; flex-direction: column; padding: 12px; border-radius: 10px; background: var(--bg); gap: 6px; }
   .fixed-item-top { display: flex; justify-content: space-between; align-items: flex-start; }
@@ -173,6 +177,22 @@
   .modal-box { background: #fff; border-radius: 20px 20px 0 0; padding: 24px 20px 40px; width: 100%; max-width: 480px; }
   .modal-title { font-size: 16px; font-weight: 700; margin-bottom: 16px; }
   .modal-close { float: right; background: none; border: none; font-size: 20px; color: var(--ink-soft); cursor: pointer; margin-top: -4px; }
+  .cal-wrap { margin-top: 4px; }
+  .cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .cal-header button { background: none; border: 1px solid var(--rule); border-radius: 6px; width: 28px; height: 28px; font-size: 14px; cursor: pointer; color: var(--ink); }
+  .cal-month-label { font-size: 13px; font-weight: 600; }
+  .cal-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 3px; }
+  .cal-dow { font-size: 9px; text-align: center; color: var(--ink-soft); font-weight: 600; padding: 2px 0; }
+  .cal-day { border-radius: 6px; padding: 4px 2px; text-align: center; cursor: pointer; min-height: 44px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 2px; }
+  .cal-day-num { font-size: 11px; font-weight: 600; line-height: 1; }
+  .cal-day-amt { font-size: 9px; font-family: 'DM Mono', monospace; line-height: 1; }
+  .cal-day.empty { cursor: default; }
+  .cal-day.today { border: 2px solid var(--accent); }
+  .cal-day.has-spend-low { background: #D8F3DC; }
+  .cal-day.has-spend-mid { background: #FEF3C7; }
+  .cal-day.has-spend-high { background: #FEE2E2; }
+  .cal-day-detail { margin-top: 10px; background: var(--bg); border-radius: 10px; padding: 10px; }
+  .cal-day-detail-title { font-size: 12px; font-weight: 600; color: var(--accent); margin-bottom: 6px; }
 </style>
 </head>
 <body>
@@ -252,6 +272,7 @@
   <div class="tab active" onclick="switchTab('overview')">Översikt</div>
   <div class="tab" onclick="switchTab('fixed')">Fasta</div>
   <div class="tab" onclick="switchTab('spending')">Köp</div>
+  <div class="tab" onclick="switchTab('cal')">Kalender</div>
   <div class="tab" onclick="switchTab('cats')">Kategorier</div>
   <div class="tab" onclick="switchTab('savings')">Spara</div>
 </div>
@@ -415,6 +436,24 @@
       <button class="reset-btn" onclick="resetTx()">Nollställ köp denna period</button>
     </div>
   </div>
+  <div class="tab-panel" id="tab-cal">
+    <div class="card">
+      <div class="card-label">Kalender</div>
+      <div class="card-title">Utgifter per dag</div>
+      <div class="cal-wrap">
+        <div class="cal-header">
+          <button onclick="calPrevMonth()">‹</button>
+          <span class="cal-month-label" id="cal-month-label">—</span>
+          <button onclick="calNextMonth()">›</button>
+        </div>
+        <div class="cal-grid" id="cal-grid"></div>
+        <div class="cal-day-detail" id="cal-day-detail" style="display:none;">
+          <div class="cal-day-detail-title" id="cal-day-detail-title"></div>
+          <div id="cal-day-detail-list"></div>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="tab-panel" id="tab-cats">
     <div class="card">
       <div class="card-label">Kategorier</div>
@@ -494,6 +533,9 @@ let editingTxId=null,editingFixedId=null;
 let editTxCard='amex',editTxWho='me',editFixedCard=null,editFixedWho='me';
 let quickActive=null;
 const shortMonths=['jan','feb','mar','apr','maj','jun','jul','aug','sep','okt','nov','dec'];
+const calMonthNames=['Januari','Februari','Mars','April','Maj','Juni','Juli','Augusti','September','Oktober','November','December'];
+const calDow=['Mån','Tis','Ons','Tor','Fre','Lör','Sön'];
+let calYear=new Date().getFullYear(),calMonth=new Date().getMonth(),calSelectedDay=null;
 function getPeriodKey(){return`budget_p${PAY_DATES[periodIdx][0]}_${PAY_DATES[periodIdx][1]}_${PAY_DATES[periodIdx][2]}`;}
 function getKey(s){return getPeriodKey()+'_'+s;}
 function load(k,fb){try{const v=localStorage.getItem(k);return v!==null?JSON.parse(v):fb;}catch{return fb;}}
@@ -504,14 +546,14 @@ function getPeriodLabel(){if(periodIdx>=PAY_DATES.length-1)return'—';const s=P
 function getDaysLeftInPeriod(){if(periodIdx>=PAY_DATES.length-1)return 1;const today=new Date();today.setHours(0,0,0,0);const end=payDateToObj(PAY_DATES[periodIdx+1]);return Math.max(Math.ceil((end-today)/(1000*60*60*24)),1);}
 function getTotalDaysInPeriod(){if(periodIdx>=PAY_DATES.length-1)return 30;const s=payDateToObj(PAY_DATES[periodIdx]);const e=payDateToObj(PAY_DATES[periodIdx+1]);return Math.ceil((e-s)/(1000*60*60*24));}
 function changePeriod(dir){periodIdx=Math.max(0,Math.min(PAY_DATES.length-2,periodIdx+dir));render();}
-function switchTab(tab){activeTab=tab;const tabs=['overview','fixed','spending','cats','savings'];document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',tabs[i]===tab));document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));document.getElementById('tab-'+tab).classList.add('active');render();}
+function switchTab(tab){activeTab=tab;const tabs=['overview','fixed','spending','cal','cats','savings'];document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',tabs[i]===tab));document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));document.getElementById('tab-'+tab).classList.add('active');render();}
 function selectCard(ctx,el){const sel=document.getElementById(ctx==='fixed'?'fixed-card-selector':'tx-card-selector');sel.querySelectorAll('.card-chip').forEach(c=>c.className='card-chip');el.classList.add('sel-'+el.dataset.card);if(ctx==='fixed')selectedCardFixed=el.dataset.card;else selectedCardTx=el.dataset.card;}
 function selectWho(ctx,el){const sel=document.getElementById(ctx==='fixed'?'fixed-who-selector':'tx-who-selector');sel.querySelectorAll('.who-chip').forEach(c=>c.className='who-chip');el.classList.add('sel-'+el.dataset.who);if(ctx==='fixed')selectedWhoFixed=el.dataset.who;else selectedWhoTx=el.dataset.who;}
 function selectEditCard(ctx,el){const sel=document.getElementById(ctx==='fixed'?'edit-fixed-card-selector':'edit-tx-card-selector');sel.querySelectorAll('.card-chip').forEach(c=>c.className='card-chip');el.classList.add('sel-'+el.dataset.card);if(ctx==='fixed')editFixedCard=el.dataset.card;else editTxCard=el.dataset.card;}
 function selectEditWho(ctx,el){const sel=document.getElementById(ctx==='fixed'?'edit-fixed-who-selector':'edit-tx-who-selector');sel.querySelectorAll('.who-chip').forEach(c=>c.className='who-chip');el.classList.add('sel-'+el.dataset.who);if(ctx==='fixed')editFixedWho=el.dataset.who;else editTxWho=el.dataset.who;}
 function setFixedFilter(el){fixedFilter=el.dataset.who;document.querySelectorAll('.who-filter-chip').forEach(c=>c.classList.toggle('active',c.dataset.who===fixedFilter));renderFixed();}
 function quickLog(label,catId,card,who){quickActive={label,catId,card,who};document.querySelectorAll('.quick-btn').forEach(b=>b.classList.remove('active-quick'));event.currentTarget.classList.add('active-quick');document.getElementById('quick-label').textContent=`Belopp för ${label}`;document.getElementById('quick-amount-row').style.display='block';document.getElementById('quick-amount').value='';document.getElementById('quick-amount').focus();}
-function confirmQuick(){if(!quickActive)return;const val=parseFloat(document.getElementById('quick-amount').value);if(!val||val<=0)return;const tx=getTx();tx.push({id:Date.now(),desc:quickActive.label,amount:val,card:quickActive.card,cat:quickActive.catId,who:quickActive.who,date:new Date().toLocaleDateString('sv-SE')});saveTx(tx);cancelQuick();renderTx();renderOverview();renderCatBreakdown();renderFoodTracker();}
+function confirmQuick(){if(!quickActive)return;const val=parseFloat(document.getElementById('quick-amount').value);if(!val||val<=0)return;const tx=getTx();tx.push({id:Date.now(),desc:quickActive.label,amount:val,card:quickActive.card,cat:quickActive.catId,who:quickActive.who,date:new Date().toLocaleDateString('sv-SE')});saveTx(tx);cancelQuick();renderTx();renderOverview();renderCatBreakdown();renderFoodTracker();renderCalendar();}
 function cancelQuick(){quickActive=null;document.getElementById('quick-amount-row').style.display='none';document.querySelectorAll('.quick-btn').forEach(b=>b.classList.remove('active-quick'));}
 const CARD_META={amex:['badge-amex','Amex'],klarna:['badge-klarna','Klarna'],hb:['badge-hb','HB'],swish:['badge-swish','Swish'],other:['badge-other','Annat']};
 function cardBadge(c){const[cls,lbl]=CARD_META[c]||['badge-other','Annat'];return`<span class="card-badge ${cls}">${lbl}</span>`;}
@@ -542,14 +584,21 @@ function saveEditFixed(){const name=document.getElementById('edit-fixed-name').v
 function renderFixed(){const all=getFixed(),status=getPaid();const items=fixedFilter==='all'?all:all.filter(f=>f.who===fixedFilter);const list=document.getElementById('fixed-list');const totalRow=document.getElementById('fixed-total-row');if(!list)return;const meTotal=all.filter(f=>f.who==='me').reduce((s,f)=>s+f.amount,0);const bothTotal=all.filter(f=>f.who==='both').reduce((s,f)=>s+f.amount,0);const sm=document.getElementById('split-me');const sb=document.getElementById('split-both');if(sm)sm.textContent=fmt(meTotal);if(sb)sb.textContent=fmt(bothTotal);if(items.length===0){list.innerHTML='<div class="tx-empty">Inga fasta utgifter</div>';if(totalRow)totalRow.style.display='none';return;}const total=items.reduce((s,f)=>s+f.amount,0);document.getElementById('fixed-total-val').textContent=fmt(total);if(totalRow)totalRow.style.display='flex';list.innerHTML=items.map(f=>{const paid=!!status[f.id];return`<div class="fixed-item ${paid?'fixed-paid':''}"><div class="fixed-item-top"><div class="fixed-item-left"><div class="fixed-item-name">${f.name}</div><div class="fixed-item-meta">${cardBadge(f.card)}${whoBadge(f.who||'me')}${f.cat?catBadge(f.cat):''}</div></div><span class="fixed-item-amount">${fmt(f.amount)}</span></div><div class="fixed-item-actions"><button class="edit-btn" onclick="openEditFixed(${f.id})">✏️ Redigera</button><button class="check-btn ${paid?'checked':''}" onclick="togglePaid(${f.id})">${paid?'✓':''}</button><button class="delete-fixed-btn" onclick="deleteFixed(${f.id})">✕ Ta bort</button></div></div>`;}).join('');}
 function getTx(){return load(getKey('tx'),[]);}
 function saveTx(tx){save(getKey('tx'),tx);}
-function addTx(){const desc=document.getElementById('tx-desc').value.trim()||'Köp';const amount=parseFloat(document.getElementById('tx-amount').value);const cat=document.getElementById('tx-cat').value;if(!amount||amount<=0)return;const tx=getTx();tx.push({id:Date.now(),desc,amount,card:selectedCardTx,cat:cat||null,who:selectedWhoTx,date:new Date().toLocaleDateString('sv-SE')});saveTx(tx);document.getElementById('tx-desc').value='';document.getElementById('tx-amount').value='';renderTx();renderOverview();renderCatBreakdown();renderFoodTracker();}
-function deleteTx(id){if(!confirm('Ta bort?'))return;saveTx(getTx().filter(t=>t.id!==id));renderTx();renderOverview();renderCatBreakdown();renderFoodTracker();}
+function addTx(){const desc=document.getElementById('tx-desc').value.trim()||'Köp';const amount=parseFloat(document.getElementById('tx-amount').value);const cat=document.getElementById('tx-cat').value;if(!amount||amount<=0)return;const tx=getTx();tx.push({id:Date.now(),desc,amount,card:selectedCardTx,cat:cat||null,who:selectedWhoTx,date:new Date().toLocaleDateString('sv-SE')});saveTx(tx);document.getElementById('tx-desc').value='';document.getElementById('tx-amount').value='';renderTx();renderOverview();renderCatBreakdown();renderFoodTracker();renderCalendar();}
+function deleteTx(id){if(!confirm('Ta bort?'))return;saveTx(getTx().filter(t=>t.id!==id));renderTx();renderOverview();renderCatBreakdown();renderFoodTracker();renderCalendar();}
 function openEditTx(id){const t=getTx().find(x=>x.id===id);if(!t)return;editingTxId=id;editTxCard=t.card;editTxWho=t.who||'me';document.getElementById('edit-tx-desc').value=t.desc;document.getElementById('edit-tx-amount').value=t.amount;populateCatSelects();document.getElementById('edit-tx-cat').value=t.cat||'';const cs=document.getElementById('edit-tx-card-selector');cs.querySelectorAll('.card-chip').forEach(c=>{c.className='card-chip';if(c.dataset.card===t.card)c.classList.add('sel-'+t.card);});const ws=document.getElementById('edit-tx-who-selector');ws.querySelectorAll('.who-chip').forEach(c=>{c.className='who-chip';if(c.dataset.who===(t.who||'me'))c.classList.add('sel-'+(t.who||'me'));});document.getElementById('edit-tx-modal').classList.add('show');}
 function closeEditTx(){document.getElementById('edit-tx-modal').classList.remove('show');editingTxId=null;}
-function saveEditTx(){const desc=document.getElementById('edit-tx-desc').value.trim()||'Köp';const amount=parseFloat(document.getElementById('edit-tx-amount').value);const cat=document.getElementById('edit-tx-cat').value;if(!amount||amount<=0)return;saveTx(getTx().map(t=>t.id===editingTxId?{...t,desc,amount,card:editTxCard,cat:cat||null,who:editTxWho}:t));closeEditTx();renderTx();renderOverview();renderCatBreakdown();renderFoodTracker();}
-function resetTx(){if(!confirm('Nollställa?'))return;saveTx([]);renderTx();renderOverview();renderCatBreakdown();renderFoodTracker();}
+function saveEditTx(){const desc=document.getElementById('edit-tx-desc').value.trim()||'Köp';const amount=parseFloat(document.getElementById('edit-tx-amount').value);const cat=document.getElementById('edit-tx-cat').value;if(!amount||amount<=0)return;saveTx(getTx().map(t=>t.id===editingTxId?{...t,desc,amount,card:editTxCard,cat:cat||null,who:editTxWho}:t));closeEditTx();renderTx();renderOverview();renderCatBreakdown();renderFoodTracker();renderCalendar();}
+function resetTx(){if(!confirm('Nollställa?'))return;saveTx([]);renderTx();renderOverview();renderCatBreakdown();renderFoodTracker();renderCalendar();}
 function setTxFilter(el){txFilter=el.dataset.filter;document.querySelectorAll('.filter-chip').forEach(c=>c.classList.toggle('active',c.dataset.filter===txFilter));renderTx();}
-function renderTx(){const all=getTx();const cards=['amex','klarna','hb','swish','other'];const totals={};cards.forEach(c=>totals[c]=all.filter(t=>t.card===c).reduce((s,t)=>s+t.amount,0));const bdgC={amex:'badge-amex',klarna:'badge-klarna',hb:'badge-hb',swish:'badge-swish',other:'badge-other'};const bdgL={amex:'Amex',klarna:'Klarna',hb:'HB',swish:'Swish',other:'Annat'};const ct=document.getElementById('card-totals');if(ct)ct.innerHTML=cards.filter(c=>totals[c]>0).map(c=>`<span class="card-badge ${bdgC[c]}" style="padding:5px 10px;font-size:11px;">${bdgL[c]}: ${fmt(totals[c])}</span>`).join('');const filtered=txFilter==='all'?all:all.filter(t=>t.card===txFilter);const list=document.getElementById('tx-list');if(!list)return;if(filtered.length===0){list.innerHTML='<div class="tx-empty">Inga köp loggade</div>';return;}list.innerHTML=[...filtered].reverse().map(t=>`<div class="tx-item"><div class="tx-left"><span class="tx-desc">${t.desc}</span><div class="tx-meta">${t.date} ${cardBadge(t.card)}${whoBadge(t.who||'me')}${t.cat?catBadge(t.cat):''}</div></div><div class="tx-right"><span class="tx-amount">${fmt(t.amount)}</span><button class="tx-edit" onclick="openEditTx(${t.id})">✏️</button><button class="tx-delete" onclick="deleteTx(${t.id})">✕</button></div></div>`).join('');}
+function renderTx(){const all=getTx();const cards=['amex','klarna','hb','swish','other'];const totals={};cards.forEach(c=>totals[c]=all.filter(t=>t.card===c).reduce((s,t)=>s+t.amount,0));const bdgC={amex:'badge-amex',klarna:'badge-klarna',hb:'badge-hb',swish:'badge-swish',other:'badge-other'};const bdgL={amex:'Amex',klarna:'Klarna',hb:'HB',swish:'Swish',other:'Annat'};const ct=document.getElementById('card-totals');if(ct)ct.innerHTML=cards.filter(c=>totals[c]>0).map(c=>`<span class="card-badge ${bdgC[c]}" style="padding:5px 10px;font-size:11px;">${bdgL[c]}: ${fmt(totals[c])}</span>`).join('');const filtered=txFilter==='all'?all:all.filter(t=>t.card===txFilter);const list=document.getElementById('tx-list');if(!list)return;if(filtered.length===0){list.innerHTML='<div class="tx-empty">Inga köp loggade</div>';return;}const byDate={};[...filtered].forEach(t=>{if(!byDate[t.date])byDate[t.date]=[];byDate[t.date].push(t);});const sortedDates=Object.keys(byDate).sort((a,b)=>{const pa=a.split('.').reverse().join('');const pb=b.split('.').reverse().join('');return pb.localeCompare(pa);});list.innerHTML=sortedDates.map(date=>{const txs=byDate[date];const dayTotal=txs.reduce((s,t)=>s+t.amount,0);return`<div class="tx-date-group"><div class="tx-date-header"><span class="tx-date-label">${date}</span><span class="tx-date-total">${fmt(dayTotal)}</span></div>${txs.map(t=>`<div class="tx-item"><div class="tx-left"><span class="tx-desc">${t.desc}</span><div class="tx-meta">${cardBadge(t.card)}${whoBadge(t.who||'me')}${t.cat?catBadge(t.cat):''}</div></div><div class="tx-right"><span class="tx-amount">${fmt(t.amount)}</span><button class="tx-edit" onclick="openEditTx(${t.id})">✏️</button><button class="tx-delete" onclick="deleteTx(${t.id})">✕</button></div></div>`).join('')}</div>`;}).join('');}
+function getTxByDate(){const tx=getTx();const byDate={};tx.forEach(t=>{if(!t.date)return;if(!byDate[t.date])byDate[t.date]=[];byDate[t.date].push(t);});return byDate;}
+function dateKeyForDay(y,m,d){return`${d}.${m+1}.${y}`;}
+function calPrevMonth(){calMonth--;if(calMonth<0){calMonth=11;calYear--;}renderCalendar();}
+function calNextMonth(){calMonth++;if(calMonth>11){calMonth=0;calYear++;}renderCalendar();}
+function renderCalendar(){const label=document.getElementById('cal-month-label');if(label)label.textContent=`${calMonthNames[calMonth]} ${calYear}`;const grid=document.getElementById('cal-grid');if(!grid)return;const byDate=getTxByDate();const today=new Date();const firstDay=new Date(calYear,calMonth,1);let startDow=firstDay.getDay()-1;if(startDow<0)startDow=6;const daysInMonth=new Date(calYear,calMonth+1,0).getDate();let maxSpend=0;for(let d=1;d<=daysInMonth;d++){const key=dateKeyForDay(calYear,calMonth,d);const txs=byDate[key]||[];const total=txs.reduce((s,t)=>s+t.amount,0);if(total>maxSpend)maxSpend=total;}let html=calDow.map(d=>`<div class="cal-dow">${d}</div>`).join('');for(let i=0;i<startDow;i++)html+='<div class="cal-day empty"></div>';for(let d=1;d<=daysInMonth;d++){const key=dateKeyForDay(calYear,calMonth,d);const txs=byDate[key]||[];const total=txs.reduce((s,t)=>s+t.amount,0);const isToday=today.getDate()===d&&today.getMonth()===calMonth&&today.getFullYear()===calYear;const isSelected=calSelectedDay===d;let cls='cal-day';if(isToday)cls+=' today';if(isSelected)cls+=' selected-day';if(total>0){const pct=total/Math.max(maxSpend,1);if(pct<0.33)cls+=' has-spend-low';else if(pct<0.66)cls+=' has-spend-mid';else cls+=' has-spend-high';}const amtTxt=total>0?`<span class="cal-day-amt">${total>=1000?Math.round(total/100)/10+'k':Math.round(total)}</span>`:'';html+=`<div class="${cls}" onclick="calSelectDay(${d})"><span class="cal-day-num">${d}</span>${amtTxt}</div>`;}grid.innerHTML=html;if(calSelectedDay)calShowDay(calSelectedDay);}
+function calSelectDay(d){calSelectedDay=d;renderCalendar();}
+function calShowDay(d){const key=dateKeyForDay(calYear,calMonth,d);const byDate=getTxByDate();const txs=byDate[key]||[];const detail=document.getElementById('cal-day-detail');const title=document.getElementById('cal-day-detail-title');const list=document.getElementById('cal-day-detail-list');if(!detail||!title||!list)return;detail.style.display='block';const total=txs.reduce((s,t)=>s+t.amount,0);title.textContent=`${d} ${calMonthNames[calMonth]} — ${fmt(total)}`;if(txs.length===0){list.innerHTML='<div class="tx-empty">Inga köp denna dag</div>';return;}list.innerHTML=txs.map(t=>`<div class="tx-item"><div class="tx-left"><span class="tx-desc">${t.desc}</span><div class="tx-meta">${cardBadge(t.card)}${t.cat?catBadge(t.cat):''}</div></div><div class="tx-right"><span class="tx-amount">${fmt(t.amount)}</span></div></div>`).join('');}
 function getSavingsTx(){return load('budget_savings_global',[]);}
 function saveSavingsTx(tx){save('budget_savings_global',tx);}
 function getStreak(){return load('budget_streak',0);}
@@ -565,7 +614,7 @@ function renderChildren(){[1,2].forEach(n=>{const el=document.getElementById(`ch
 function renderOverview(){const income=getPeriodIncome();const tx=getTx();const fixed=getFixed();const fixedAmex=fixed.filter(f=>f.card==='amex').reduce((s,f)=>s+f.amount,0);const amexTxSpent=tx.filter(t=>t.card==='amex').reduce((s,t)=>s+t.amount,0);const amexSpent=amexTxSpent+fixedAmex;const allTxSpent=tx.reduce((s,t)=>s+t.amount,0);const fixedTotal=fixed.reduce((s,f)=>s+f.amount,0);const pct=Math.min(amexSpent/AMEX_CAP*100,100);const left=AMEX_CAP-amexSpent;const setEl=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};setEl('ov-income',fmtShort(income));setEl('ov-spent',fmt(amexSpent));setEl('ov-spent-breakdown',`${fmt(fixedAmex)} fasta + ${fmt(amexTxSpent)} köp`);setEl('ov-left',left>=0?fmt(left)+' kvar':fmt(-left)+' över');setEl('ov-pct',Math.round(pct)+'%');setEl('ov-fixed',fmtShort(fixedTotal));setEl('ov-spending',fmtShort(allTxSpent));const bar=document.getElementById('ov-bar');if(bar)bar.style.width=pct+'%';const pill=document.getElementById('ov-pill');if(pill){if(pct<60){if(bar)bar.style.background='var(--green)';pill.className='status-pill pill-green';pill.textContent='Bra läge ✓';}else if(pct<90){if(bar)bar.style.background='var(--amber)';pill.className='status-pill pill-amber';pill.textContent='Var försiktig ⚡';}else{if(bar)bar.style.background='var(--red)';pill.className='status-pill pill-red';pill.textContent=amexSpent>AMEX_CAP?'Över taket ✕':'Snart slut ⚠';}}const actualSavings=getSavingsTx().reduce((s,t)=>s+t.amount,0);const free=income-fixedTotal-allTxSpent-actualSavings;const freeEl=document.getElementById('ov-free');if(freeEl){freeEl.textContent=fmtShort(free);freeEl.style.color=free>=0?'var(--green)':'var(--red)';}const salInput=document.getElementById('period-salary');if(salInput&&!salInput.value){const stored=load(getKey('income'),null);if(stored)salInput.value=stored;}renderSalaryBreakdown();}
 function fmt(n){return Math.round(n).toLocaleString('sv-SE')+' kr';}
 function fmtShort(n){return Math.round(n).toLocaleString('sv-SE');}
-function render(){document.getElementById('periodLabel').textContent=getPeriodLabel();buildColorPicker();populateCatSelects();renderFixed();renderTx();renderSavings();renderChildren();renderOverview();renderCats();renderCatBreakdown();renderFoodTracker();renderStreak();}
+function render(){document.getElementById('periodLabel').textContent=getPeriodLabel();buildColorPicker();populateCatSelects();renderFixed();renderTx();renderSavings();renderChildren();renderOverview();renderCats();renderCatBreakdown();renderFoodTracker();renderStreak();renderCalendar();}
 render();
 </script>
 </body>
