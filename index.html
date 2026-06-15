@@ -395,7 +395,7 @@
   </div>
 </div>
 <script>
-const PAY_DATES=[[2026,5,25],[2026,6,24],[2026,7,25],[2026,8,25],[2026,9,23],[2026,10,25],[2026,11,23],[2027,0,25],[2027,1,25],[2027,2,25],[2027,3,23],[2027,4,25],[2027,5,25]];
+const PAY_DATES=[[2026,4,25],[2026,5,25],[2026,6,24],[2026,7,25],[2026,8,25],[2026,9,23],[2026,10,25],[2026,11,23],[2027,0,25],[2027,1,25],[2027,2,25],[2027,3,23],[2027,4,25],[2027,5,25]];
 function payDateToObj(pd){return new Date(pd[0],pd[1],pd[2]);}
 function findCurrentPeriodIdx(){const today=new Date();today.setHours(0,0,0,0);for(let i=0;i<PAY_DATES.length-1;i++){const start=payDateToObj(PAY_DATES[i]);const end=payDateToObj(PAY_DATES[i+1]);if(today>=start&&today<end)return i;}if(today<payDateToObj(PAY_DATES[0]))return 0;return PAY_DATES.length-2;}
 const AMEX_CAP=15000,SAVINGS_GOAL=57000,DEFAULT_INCOME=52328,FOOD_BUDGET=6000;
