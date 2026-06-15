@@ -12,8 +12,7 @@
     --ink-faint: #C4C4C4; --green: #2D6A4F; --green-light: #D8F3DC;
     --amber: #B45309; --amber-light: #FEF3C7; --red: #9B1C1C; --red-light: #FEE2E2;
     --accent: #3D5A80; --accent-light: #E0E8F0; --rule: #E8E6E0;
-    --amex: #006FCF; --klarna-ink: #7B2D3E; --hb: #003087;
-    --patrik: #7B3F00;
+    --amex: #006FCF; --klarna-ink: #7B2D3E; --hb: #003087; --patrik: #7B3F00;
   }
   body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; padding: 24px 16px 80px; -webkit-tap-highlight-color: transparent; }
   .header { max-width: 480px; margin: 0 auto 20px; }
@@ -37,4 +36,424 @@
   .card-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 4px; }
   .card-title { font-size: 15px; font-weight: 600; margin-bottom: 14px; }
   .divider { height: 1px; background: var(--rule); margin: 12px 0; }
-  .overview-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1px; background​​​​​​​​​​​​​​​​
+  .overview-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1px; background: var(--rule); border-radius: 12px; overflow: hidden; border: 1px solid var(--rule); }
+  .overview-cell { background: var(--surface); padding: 12px 6px; text-align: center; }
+  .overview-val { font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500; margin-bottom: 2px; }
+  .overview-key { font-size: 10px; color: var(--ink-soft); }
+  .progress-bar-bg { height: 10px; border-radius: 99px; background: var(--rule); overflow: hidden; margin-bottom: 6px; }
+  .progress-bar-fill { height: 100%; border-radius: 99px; transition: width .4s ease; }
+  .progress-meta { display: flex; justify-content: space-between; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-soft); margin-bottom: 10px; }
+  .status-pill { display: inline-block; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 99px; margin-bottom: 12px; }
+  .pill-green { background: var(--green-light); color: var(--green); }
+  .pill-amber { background: var(--amber-light); color: var(--amber); }
+  .pill-red { background: var(--red-light); color: var(--red); }
+  .big-num { font-family: 'DM Mono', monospace; font-size: 30px; font-weight: 500; line-height: 1; margin-bottom: 4px; }
+  .big-sub { font-size: 13px; color: var(--ink-soft); margin-bottom: 12px; }
+  .big-sub strong { color: var(--ink); }
+  .food-tracker { background: linear-gradient(135deg, #E8F5E9, #F1F8E9); border-radius: 14px; padding: 16px; border: 1px solid #C8E6C9; margin-bottom: 4px; }
+  .food-today { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+  .food-today-label { font-size: 11px; font-weight: 600; color: var(--green); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 2px; }
+  .food-today-amount { font-family: 'DM Mono', monospace; font-size: 36px; font-weight: 500; color: var(--green); line-height: 1; }
+  .food-today-sub { font-size: 11px; color: #555; margin-top: 2px; }
+  .food-right { text-align: right; }
+  .food-right-label { font-size: 11px; color: var(--ink-soft); margin-bottom: 2px; }
+  .food-right-val { font-family: 'DM Mono', monospace; font-size: 16px; font-weight: 500; }
+  .food-warning { background: var(--amber-light); border-radius: 8px; padding: 8px 10px; font-size: 12px; color: var(--amber); font-weight: 600; margin-top: 8px; }
+  .food-great { background: var(--green-light); border-radius: 8px; padding: 8px 10px; font-size: 12px; color: var(--green); font-weight: 600; margin-top: 8px; }
+  .add-form { display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
+  .add-form-row { display: flex; gap: 8px; }
+  .add-form input[type=text], .add-form input[type=number] { flex: 1; border: 1px solid var(--rule); border-radius: 10px; padding: 10px 12px; font-family: 'DM Sans', sans-serif; font-size: 16px; background: var(--bg); color: var(--ink); outline: none; }
+  .add-form select { flex: 1; border: 1px solid var(--rule); border-radius: 10px; padding: 10px 12px; font-family: 'DM Sans', sans-serif; font-size: 16px; background: var(--bg); color: var(--ink); outline: none; appearance: none; }
+  .add-form input:focus, .add-form select:focus { border-color: var(--accent); }
+  .add-form input::placeholder { color: var(--ink-faint); }
+  .card-selector { display: flex; gap: 4px; flex-wrap: wrap; }
+  .card-chip { flex: 1; min-width: 50px; padding: 8px 2px; border-radius: 8px; border: 2px solid transparent; background: var(--bg); font-size: 10px; font-weight: 700; cursor: pointer; text-align: center; color: var(--ink-soft); }
+  .card-chip.sel-amex { border-color: var(--amex); background: #E8F2FF; color: var(--amex); }
+  .card-chip.sel-klarna { border-color: var(--klarna-ink); background: #FFE8EF; color: var(--klarna-ink); }
+  .card-chip.sel-swish { border-color: var(--green); background: var(--green-light); color: var(--green); }
+  .card-chip.sel-hb { border-color: var(--hb); background: #E6EBF5; color: var(--hb); }
+  .card-chip.sel-other { border-color: var(--ink-soft); background: #EFEFEF; color: var(--ink); }
+  .who-selector { display: flex; gap: 6px; }
+  .who-chip { flex: 1; padding: 9px 4px; border-radius: 8px; border: 2px solid var(--rule); background: var(--bg); font-size: 12px; font-weight: 700; cursor: pointer; text-align: center; color: var(--ink-soft); }
+  .who-chip.sel-me { border-color: var(--accent); background: var(--accent-light); color: var(--accent); }
+  .who-chip.sel-both { border-color: var(--patrik); background: #FFF3E0; color: var(--patrik); }
+  .add-btn { background: var(--ink); color: #fff; border: none; border-radius: 10px; padding: 12px 18px; font-size: 16px; cursor: pointer; white-space: nowrap; font-family: 'DM Sans', sans-serif; font-weight: 600; }
+  .add-btn-full { flex: 1; }
+  .card-badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 99px; }
+  .badge-amex { background: #E8F2FF; color: var(--amex); }
+  .badge-klarna { background: #FFE8EF; color: var(--klarna-ink); }
+  .badge-swish { background: var(--green-light); color: var(--green); }
+  .badge-hb { background: #E6EBF5; color: var(--hb); }
+  .badge-other { background: #EFEFEF; color: var(--ink-soft); }
+  .badge-me { background: var(--accent-light); color: var(--accent); }
+  .badge-both { background: #FFF3E0; color: var(--patrik); }
+  .cat-badge { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 99px; }
+  .tx-list { display: flex; flex-direction: column; gap: 4px; max-height: 220px; overflow-y: auto; }
+  .tx-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 10px; border-radius: 8px; font-size: 13px; background: var(--bg); gap: 6px; }
+  .tx-left { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .tx-desc { color: var(--ink); font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 160px; }
+  .tx-meta { font-size: 10px; color: var(--ink-faint); display: flex; gap: 4px; align-items: center; flex-wrap: wrap; }
+  .tx-right { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+  .tx-amount { font-family: 'DM Mono', monospace; font-size: 13px; }
+  .tx-delete { background: none; border: none; color: var(--ink-faint); cursor: pointer; font-size: 13px; padding: 2px 4px; }
+  .tx-empty { text-align: center; color: var(--ink-faint); font-size: 13px; padding: 20px 0; }
+  .fixed-list { display: flex; flex-direction: column; gap: 6px; }
+  .fixed-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; border-radius: 10px; background: var(--bg); }
+  .fixed-item-left { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+  .fixed-item-name { font-size: 13px; font-weight: 500; }
+  .fixed-item-meta { display: flex; gap: 4px; align-items: center; flex-wrap: wrap; }
+  .fixed-item-right { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+  .fixed-item-amount { font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500; }
+  .fixed-paid { opacity: .4; }
+  .check-btn { background: none; border: 2px solid var(--rule); border-radius: 50%; width: 24px; height: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; }
+  .check-btn.checked { background: var(--green); border-color: var(--green); color: #fff; }
+  .delete-fixed-btn { background: none; border: none; color: var(--ink-faint); cursor: pointer; font-size: 13px; padding: 2px 4px; }
+  .fixed-total { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; border-radius: 10px; background: var(--accent-light); margin-top: 6px; }
+  .fixed-total-label { font-size: 12px; font-weight: 600; color: var(--accent); }
+  .fixed-total-val { font-family: 'DM Mono', monospace; font-size: 14px; font-weight: 600; color: var(--accent); }
+  .who-filter { display: flex; gap: 6px; margin-bottom: 10px; }
+  .who-filter-chip { flex: 1; padding: 7px 4px; border-radius: 8px; border: 1px solid var(--rule); background: var(--bg); font-size: 11px; font-weight: 600; color: var(--ink-soft); cursor: pointer; text-align: center; }
+  .who-filter-chip.active { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .split-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .split-card { border-radius: 12px; padding: 14px; }
+  .split-card.me { background: var(--accent-light); }
+  .split-card.both { background: #FFF3E0; }
+  .split-label { font-size: 11px; font-weight: 700; margin-bottom: 4px; }
+  .split-label.me { color: var(--accent); }
+  .split-label.both { color: var(--patrik); }
+  .split-amount { font-family: 'DM Mono', monospace; font-size: 20px; font-weight: 500; }
+  .cat-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+  .cat-item { display: flex; align-items: center; gap: 8px; padding: 8px 10px; background: var(--bg); border-radius: 10px; }
+  .cat-color-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+  .cat-delete { background: none; border: none; color: var(--ink-faint); cursor: pointer; font-size: 13px; padding: 2px 4px; }
+  .filter-chips { display: flex; gap: 5px; margin-bottom: 10px; flex-wrap: wrap; }
+  .filter-chip { padding: 5px 10px; border-radius: 99px; border: 1px solid var(--rule); background: var(--bg); font-size: 11px; font-weight: 600; color: var(--ink-soft); cursor: pointer; }
+  .filter-chip.active { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .card-totals { display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
+  .savings-big { font-family: 'DM Mono', monospace; font-size: 30px; font-weight: 500; line-height: 1; color: var(--green); margin-bottom: 2px; }
+  .savings-goal-txt { font-size: 13px; color: var(--ink-soft); margin-bottom: 14px; }
+  .section-note { font-size: 12px; color: var(--ink-soft); margin-bottom: 10px; }
+  .reset-btn { display: block; width: 100%; background: none; border: 1px solid var(--rule); border-radius: 10px; padding: 9px; font-size: 12px; color: var(--ink-soft); cursor: pointer; margin-top: 10px; }
+  .children-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .child-card { background: var(--accent-light); border-radius: 12px; padding: 14px; }
+  .child-name { font-size: 12px; font-weight: 600; color: var(--accent); margin-bottom: 2px; }
+  .child-amount { font-family: 'DM Mono', monospace; font-size: 20px; font-weight: 500; margin-bottom: 2px; }
+  .child-sub { font-size: 11px; color: var(--ink-soft); }
+  .child-input-row { display: flex; gap: 6px; margin-top: 10px; }
+  .child-input-row input { flex: 1; border: 1px solid rgba(61,90,128,.2); border-radius: 8px; padding: 8px 10px; font-size: 16px; background: #fff; color: var(--ink); outline: none; }
+  .child-input-row button { background: var(--accent); color: #fff; border: none; border-radius: 8px; padding: 8px 12px; font-size: 16px; cursor: pointer; }
+  .color-picker-row { display: flex; gap: 6px; flex-wrap: wrap; margin: 6px 0; }
+  .color-dot { width: 26px; height: 26px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; }
+  .color-dot.selected { border-color: var(--ink); transform: scale(1.15); }
+  .celebrate { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,.5); z-index: 100; align-items: center; justify-content: center; }
+  .celebrate.show { display: flex; }
+  .celebrate-box { background: #fff; border-radius: 20px; padding: 32px 24px; text-align: center; max-width: 300px; margin: 20px; }
+  .celebrate-emoji { font-size: 48px; margin-bottom: 12px; }
+  .celebrate-title { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+  .celebrate-sub { font-size: 14px; color: var(--ink-soft); margin-bottom: 20px; }
+  .celebrate-btn { background: var(--ink); color: #fff; border: none; border-radius: 10px; padding: 12px 24px; font-size: 15px; cursor: pointer; font-family: 'DM Sans', sans-serif; font-weight: 600; }
+  .donut-legend { display: flex; flex-direction: column; gap: 6px; flex: 1; }
+  .donut-legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; }
+  .donut-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+</style>
+</head>
+<body>
+<div class="celebrate" id="celebrate" onclick="closeCelebrate()">
+  <div class="celebrate-box">
+    <div class="celebrate-emoji" id="cel-emoji">🎉</div>
+    <div class="celebrate-title" id="cel-title">Bra jobbat!</div>
+    <div class="celebrate-sub" id="cel-sub">Du klarade månadsbudgeten!</div>
+    <button class="celebrate-btn" onclick="closeCelebrate()">Tack! 💪</button>
+  </div>
+</div>
+<div class="header">
+  <div class="header-label">Månadsöversikt</div>
+  <h1>Min <span>budget</span></h1>
+  <div class="month-nav">
+    <button onclick="changeMonth(-1)">‹</button>
+    <div class="month-label" id="monthLabel">—</div>
+    <button onclick="changeMonth(1)">›</button>
+  </div>
+</div>
+<div class="streak-bar">
+  <div class="streak-fire" id="streak-emoji">🔥</div>
+  <div>
+    <div class="streak-text" id="streak-text">Ingen streak än</div>
+    <div class="streak-sub" id="streak-sub">Håll Amex under 15 000 kr för att starta!</div>
+  </div>
+</div>
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('overview')">Översikt</div>
+  <div class="tab" onclick="switchTab('fixed')">Fasta</div>
+  <div class="tab" onclick="switchTab('spending')">Köp</div>
+  <div class="tab" onclick="switchTab('cats')">Kategorier</div>
+  <div class="tab" onclick="switchTab('savings')">Spara</div>
+</div>
+<div class="grid">
+  <div class="tab-panel active" id="tab-overview">
+    <div class="overview-row">
+      <div class="overview-cell"><div class="overview-val">52 328</div><div class="overview-key">Nettolön kr</div></div>
+      <div class="overview-cell"><div class="overview-val" id="ov-fixed">—</div><div class="overview-key">Fasta kr</div></div>
+      <div class="overview-cell"><div class="overview-val" id="ov-free" style="color:var(--green)">—</div><div class="overview-key">Kvar kr</div></div>
+    </div>
+    <div class="card">
+      <div class="card-label">Rullande matbudget</div>
+      <div class="card-title">Mat & hushåll</div>
+      <div class="food-tracker">
+        <div class="food-today">
+          <div>
+            <div class="food-today-label">Du kan handla för idag</div>
+            <div class="food-today-amount" id="food-today-budget">— kr</div>
+            <div class="food-today-sub" id="food-today-sub">baserat på vad som är kvar</div>
+          </div>
+          <div class="food-right">
+            <div class="food-right-label">Kvar av månaden</div>
+            <div class="food-right-val" id="food-left">— kr</div>
+            <div class="food-right-label" style="margin-top:6px;">Spenderat</div>
+            <div class="food-right-val" id="food-spent">0 kr</div>
+          </div>
+        </div>
+        <div class="progress-bar-bg"><div class="progress-bar-fill" id="food-bar" style="width:0%;background:var(--green)"></div></div>
+        <div class="progress-meta"><span id="food-pct-txt">0% av 6 000 kr</span><span id="food-days-left">— dagar kvar</span></div>
+        <div id="food-msg"></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label">Rörliga utgifter</div>
+      <div class="card-title">Amex-tak</div>
+      <div class="big-num" id="ov-spent">0 kr</div>
+      <div class="big-sub">av <strong>15 000 kr</strong> tak · Amex</div>
+      <div id="ov-pill" class="status-pill pill-green">Bra läge ✓</div>
+      <div class="progress-bar-bg"><div class="progress-bar-fill" id="ov-bar" style="width:0%;background:var(--green)"></div></div>
+      <div class="progress-meta"><span id="ov-left">15 000 kr kvar</span><span id="ov-pct">0%</span></div>
+    </div>
+    <div class="card">
+      <div class="card-label">Var går pengarna?</div>
+      <div class="card-title">Per kategori</div>
+      <div id="ov-cat-breakdown"><div class="tx-empty">Logga köp för att se fördelningen</div></div>
+    </div>
+    <div class="card">
+      <div class="card-label">Lönefördelning</div>
+      <div class="card-title">Var går lönen?</div>
+      <div id="salary-breakdown"></div>
+    </div>
+    <div class="card">
+      <div class="card-label">Buffert</div>
+      <div class="card-title">Sparomätare</div>
+      <div class="savings-big" id="ov-savings">0 kr</div>
+      <div class="savings-goal-txt">av 57 000 kr mål</div>
+      <div class="progress-bar-bg"><div class="progress-bar-fill" id="ov-savings-bar" style="width:0%;background:var(--green)"></div></div>
+      <div class="progress-meta"><span id="ov-savings-left">57 000 kr kvar</span><span id="ov-savings-eta">—</span></div>
+    </div>
+  </div>
+  <div class="tab-panel" id="tab-fixed">
+    <div class="card">
+      <div class="card-label">Fasta utgifter</div>
+      <div class="card-title">Hantera & bocka av</div>
+      <div class="who-filter" style="margin-bottom:14px;">
+        <div class="who-filter-chip active" data-who="all" onclick="setFixedFilter(this)">Alla</div>
+        <div class="who-filter-chip" data-who="me" onclick="setFixedFilter(this)">Bara jag</div>
+        <div class="who-filter-chip" data-who="both" onclick="setFixedFilter(this)">Jag & Patrik</div>
+      </div>
+      <div class="add-form" style="margin-bottom:14px;">
+        <div class="add-form-row">
+          <input type="text" id="fixed-name" placeholder="Namn, t.ex. Spotify">
+          <input type="number" id="fixed-amount" placeholder="kr" min="0" style="max-width:90px;">
+        </div>
+        <div class="card-selector" id="fixed-card-selector">
+          <div class="card-chip" data-card="amex" onclick="selectCard('fixed',this)">Amex</div>
+          <div class="card-chip" data-card="klarna" onclick="selectCard('fixed',this)">Klarna</div>
+          <div class="card-chip" data-card="hb" onclick="selectCard('fixed',this)">HB</div>
+          <div class="card-chip" data-card="swish" onclick="selectCard('fixed',this)">Swish</div>
+          <div class="card-chip" data-card="other" onclick="selectCard('fixed',this)">Annat</div>
+        </div>
+        <div class="who-selector" id="fixed-who-selector">
+          <div class="who-chip sel-me" data-who="me" onclick="selectWho('fixed',this)">Bara jag</div>
+          <div class="who-chip" data-who="both" onclick="selectWho('fixed',this)">Jag & Patrik</div>
+        </div>
+        <div class="add-form-row"><select id="fixed-cat"><option value="">Välj kategori</option></select></div>
+        <div class="add-form-row"><button class="add-btn add-btn-full" onclick="addFixed()">+ Lägg till</button></div>
+      </div>
+      <div class="fixed-list" id="fixed-list"><div class="tx-empty">Inga fasta utgifter inlagda</div></div>
+      <div class="fixed-total" id="fixed-total-row" style="display:none;">
+        <span class="fixed-total-label">Totalt (visade)</span>
+        <span class="fixed-total-val" id="fixed-total-val">0 kr</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label">Fördelning</div>
+      <div class="card-title">Jag vs Jag & Patrik</div>
+      <div class="split-row">
+        <div class="split-card me"><div class="split-label me">Bara jag</div><div class="split-amount" id="split-me">0 kr</div></div>
+        <div class="split-card both"><div class="split-label both">Jag & Patrik</div><div class="split-amount" id="split-both">0 kr</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="tab-panel" id="tab-spending">
+    <div class="card">
+      <div class="card-label">Rörliga utgifter</div>
+      <div class="card-title">Logga köp</div>
+      <div class="add-form">
+        <div class="add-form-row"><input type="text" id="tx-desc" placeholder="Vad köpte du?"></div>
+        <div class="add-form-row"><input type="number" id="tx-amount" placeholder="Belopp kr" min="0"></div>
+        <div class="card-selector" id="tx-card-selector">
+          <div class="card-chip sel-amex" data-card="amex" onclick="selectCard('tx',this)">Amex</div>
+          <div class="card-chip" data-card="klarna" onclick="selectCard('tx',this)">Klarna</div>
+          <div class="card-chip" data-card="hb" onclick="selectCard('tx',this)">HB</div>
+          <div class="card-chip" data-card="swish" onclick="selectCard('tx',this)">Swish</div>
+          <div class="card-chip" data-card="other" onclick="selectCard('tx',this)">Annat</div>
+        </div>
+        <div class="who-selector" id="tx-who-selector">
+          <div class="who-chip sel-me" data-who="me" onclick="selectWho('tx',this)">Bara jag</div>
+          <div class="who-chip" data-who="both" onclick="selectWho('tx',this)">Jag & Patrik</div>
+        </div>
+        <div class="add-form-row"><select id="tx-cat"><option value="">Välj kategori</option></select></div>
+        <div class="add-form-row"><button class="add-btn add-btn-full" onclick="addTx()">+ Lägg till köp</button></div>
+      </div>
+      <div class="divider"></div>
+      <div class="card-totals" id="card-totals"></div>
+      <div class="filter-chips">
+        <div class="filter-chip active" data-filter="all" onclick="setTxFilter(this)">Alla</div>
+        <div class="filter-chip" data-filter="amex" onclick="setTxFilter(this)">Amex</div>
+        <div class="filter-chip" data-filter="klarna" onclick="setTxFilter(this)">Klarna</div>
+        <div class="filter-chip" data-filter="hb" onclick="setTxFilter(this)">HB</div>
+        <div class="filter-chip" data-filter="swish" onclick="setTxFilter(this)">Swish</div>
+      </div>
+      <div class="tx-list" id="tx-list"><div class="tx-empty">Inga köp loggade ännu</div></div>
+      <button class="reset-btn" onclick="resetTx()">Nollställ köp denna månad</button>
+    </div>
+  </div>
+  <div class="tab-panel" id="tab-cats">
+    <div class="card">
+      <div class="card-label">Kategorier</div>
+      <div class="card-title">Skapa & hantera</div>
+      <div class="add-form" style="margin-bottom:14px;">
+        <div class="add-form-row">
+          <input type="text" id="cat-name" placeholder="Kategorinamn">
+          <input type="number" id="cat-budget" placeholder="Budget kr" min="0" style="max-width:110px;">
+        </div>
+        <div class="color-picker-row" id="color-picker"></div>
+        <div class="add-form-row"><button class="add-btn add-btn-full" onclick="addCat()">+ Skapa kategori</button></div>
+      </div>
+      <div class="cat-list" id="cat-list"><div class="tx-empty">Inga kategorier ännu</div></div>
+    </div>
+    <div class="card">
+      <div class="card-label">Denna månad</div>
+      <div class="card-title">Utgifter per kategori</div>
+      <div id="cat-breakdown-detail"><div class="tx-empty">Logga köp för att se fördelningen</div></div>
+    </div>
+  </div>
+  <div class="tab-panel" id="tab-savings">
+    <div class="card">
+      <div class="card-label">Buffert</div>
+      <div class="card-title">Sparomätare</div>
+      <div class="savings-big" id="savings-amount">0 kr</div>
+      <div class="savings-goal-txt">av 57 000 kr mål</div>
+      <div class="progress-bar-bg"><div class="progress-bar-fill" id="savings-bar" style="width:0%;background:var(--green)"></div></div>
+      <div class="progress-meta"><span id="savings-left">57 000 kr kvar</span><span id="savings-eta">—</span></div>
+      <div class="divider"></div>
+      <p class="section-note">Sätt in månadsbelopp (8 000 kr/mån)</p>
+      <div class="add-form">
+        <div class="add-form-row">
+          <input type="number" id="savings-input" placeholder="Belopp kr" min="0">
+          <button class="add-btn" onclick="addSavings()">+</button>
+        </div>
+      </div>
+      <div class="tx-list" id="savings-list"><div class="tx-empty">Inga insättningar ännu</div></div>
+    </div>
+    <div class="card">
+      <div class="card-label">Barnens sparande</div>
+      <div class="card-title">ISK per barn</div>
+      <div class="children-row">
+        <div class="child-card">
+          <div class="child-name">Barn 1 · 10 mån</div>
+          <div class="child-amount" id="child1-amount">0 kr</div>
+          <div class="child-sub">500 kr/mån · ISK</div>
+          <div class="child-input-row">
+            <input type="number" id="child1-input" placeholder="kr" min="0">
+            <button onclick="addChild(1)">+</button>
+          </div>
+        </div>
+        <div class="child-card">
+          <div class="child-name">Barn 2 · 4 år</div>
+          <div class="child-amount" id="child2-amount">0 kr</div>
+          <div class="child-sub">500 kr/mån · ISK</div>
+          <div class="child-input-row">
+            <input type="number" id="child2-input" placeholder="kr" min="0">
+            <button onclick="addChild(2)">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+const AMEX_CAP=15000,SAVINGS_GOAL=57000,INCOME=52328,FOOD_BUDGET=6000;
+const CAT_COLORS=['#E05C5C','#E0935C','#D4B84A','#5CB85C','#5C9BE0','#8B5CE0','#E05CB8','#5CCFCF','#A0522D','#708090'];
+let currentYear=new Date().getFullYear(),currentMonth=new Date().getMonth();
+let activeTab='overview',txFilter='all',fixedFilter='all';
+let selectedCardFixed=null,selectedCardTx='amex';
+let selectedWhoFixed='me',selectedWhoTx='me';
+let selectedColor=CAT_COLORS[0];
+const monthNames=['Januari','Februari','Mars','April','Maj','Juni','Juli','Augusti','September','Oktober','November','December'];
+function getKey(s){return`budget_${currentYear}_${currentMonth}_${s}`;}
+function load(k,fb){try{const v=localStorage.getItem(k);return v!==null?JSON.parse(v):fb;}catch{return fb;}}
+function save(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch{}}
+function switchTab(tab){activeTab=tab;const tabs=['overview','fixed','spending','cats','savings'];document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',tabs[i]===tab));document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));document.getElementById('tab-'+tab).classList.add('active');render();}
+function changeMonth(dir){currentMonth+=dir;if(currentMonth>11){currentMonth=0;currentYear++;}if(currentMonth<0){currentMonth=11;currentYear--;}render();}
+function selectCard(ctx,el){const sel=document.getElementById(ctx==='fixed'?'fixed-card-selector':'tx-card-selector');sel.querySelectorAll('.card-chip').forEach(c=>c.className='card-chip');el.classList.add('sel-'+el.dataset.card);if(ctx==='fixed')selectedCardFixed=el.dataset.card;else selectedCardTx=el.dataset.card;}
+function selectWho(ctx,el){const sel=document.getElementById(ctx==='fixed'?'fixed-who-selector':'tx-who-selector');sel.querySelectorAll('.who-chip').forEach(c=>c.className='who-chip');el.classList.add('sel-'+el.dataset.who);if(ctx==='fixed')selectedWhoFixed=el.dataset.who;else selectedWhoTx=el.dataset.who;}
+function setFixedFilter(el){fixedFilter=el.dataset.who;document.querySelectorAll('.who-filter-chip').forEach(c=>c.classList.toggle('active',c.dataset.who===fixedFilter));renderFixed();}
+const CARD_META={amex:['badge-amex','Amex'],klarna:['badge-klarna','Klarna'],hb:['badge-hb','HB'],swish:['badge-swish','Swish'],other:['badge-other','Annat']};
+function cardBadge(c){const[cls,lbl]=CARD_META[c]||['badge-other','Annat'];return`<span class="card-badge ${cls}">${lbl}</span>`;}
+function whoBadge(w){return w==='both'?'<span class="card-badge badge-both">Jag & Patrik</span>':'<span class="card-badge badge-me">Bara jag</span>';}
+const DEFAULT_CATS=[{id:1001,name:'Mat & hushåll',color:'#5C9BE0',budget:6000},{id:1002,name:'Blöjor & barn',color:'#E05CB8',budget:1500},{id:1003,name:'Apotek & hälsa',color:'#5CB85C',budget:800},{id:1004,name:'Utemat & hämtmat',color:'#E0935C',budget:2500},{id:1005,name:'Fika & kaffe',color:'#D4B84A',budget:800},{id:1006,name:'Smink & hudvård',color:'#8B5CE0',budget:500},{id:1007,name:'Övrigt',color:'#708090',budget:2900}];
+function getCats(){const s=load('budget_cats_global',null);if(s!==null)return s;saveCats(DEFAULT_CATS);return DEFAULT_CATS;}
+function saveCats(c){save('budget_cats_global',c);}
+function buildColorPicker(){const el=document.getElementById('color-picker');if(!el)return;el.innerHTML=CAT_COLORS.map(c=>`<div class="color-dot${c===selectedColor?' selected':''}" style="background:${c}" onclick="pickColor('${c}',this)"></div>`).join('');}
+function pickColor(c,el){selectedColor=c;document.querySelectorAll('.color-dot').forEach(d=>d.classList.remove('selected'));el.classList.add('selected');}
+function addCat(){const name=document.getElementById('cat-name').value.trim();const budget=parseFloat(document.getElementById('cat-budget').value)||null;if(!name)return;const cats=getCats();if(cats.find(c=>c.name.toLowerCase()===name.toLowerCase())){alert('Finns redan');return;}cats.push({id:Date.now(),name,color:selectedColor,budget});saveCats(cats);document.getElementById('cat-name').value='';document.getElementById('cat-budget').value='';renderCats();populateCatSelects();renderCatBreakdown();}
+function deleteCat(id){saveCats(getCats().filter(c=>c.id!==id));renderCats();populateCatSelects();renderTx();renderCatBreakdown();}
+function renderCats(){const cats=getCats();buildColorPicker();const list=document.getElementById('cat-list');if(!list)return;if(cats.length===0){list.innerHTML='<div class="tx-empty">Inga kategorier</div>';return;}list.innerHTML=cats.map(c=>`<div class="cat-item"><div class="cat-color-dot" style="background:${c.color}"></div><div style="flex:1;"><div style="font-size:13px;font-weight:500;">${c.name}</div>${c.budget?`<div style="font-size:10px;color:var(--ink-soft);">Budget: ${fmt(c.budget)}/mån</div>`:''}</div><button class="cat-delete" onclick="deleteCat(${c.id})">✕</button></div>`).join('');}
+function populateCatSelects(){const cats=getCats();const opts='<option value="">Välj kategori</option>'+cats.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');['tx-cat','fixed-cat'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=opts;});}
+function catById(id){return getCats().find(c=>String(c.id)===String(id));}
+function catBadge(catId){if(!catId)return'';const c=catById(catId);if(!c)return'';return`<span class="cat-badge" style="background:${c.color}22;color:${c.color}">${c.name}</span>`;}
+function renderCatBreakdown(){const tx=getTx();const cats=getCats();const totals={};tx.forEach(t=>{if(t.cat)totals[t.cat]=(totals[t.cat]||0)+t.amount;});const uncatTotal=tx.filter(t=>!t.cat).reduce((s,t)=>s+t.amount,0);const rows=cats.map(c=>({name:c.name,color:c.color,total:totals[c.id]||0,budget:c.budget||null}));if(uncatTotal>0)rows.push({name:'Okategoriserat',color:'#C4C4C4',total:uncatTotal,budget:null});const visible=rows.filter(r=>r.total>0||r.budget);visible.sort((a,b)=>(b.budget||0)-(a.budget||0));const html=visible.length===0?'<div class="tx-empty">Logga köp för att se fördelningen</div>':visible.map(r=>{const cap=r.budget||0;const pct=cap?Math.min(Math.round(r.total/cap*100),100):100;const over=cap&&r.total>cap;const barColor=over?'#9B1C1C':r.color;const leftTxt=cap?(over?fmt(r.total-cap)+' över':fmt(cap-r.total)+' kvar'):fmt(r.total);const budgetLine=cap?`<div class="progress-bar-bg" style="height:7px;margin-bottom:3px;"><div class="progress-bar-fill" style="width:${pct}%;background:${barColor};height:7px;"></div></div><div style="font-size:10px;font-family:'DM Mono',monospace;color:${over?'var(--red)':'var(--ink-soft)'};">${leftTxt}</div>`:'';return`<div style="margin-bottom:12px;"><div style="display:flex;justify-content:space-between;margin-bottom:3px;"><span style="font-size:12px;font-weight:600;color:${r.color}">${r.name}</span><span style="font-size:11px;font-family:'DM Mono',monospace;color:${over?'var(--red)':'var(--ink-soft)'};">${fmt(r.total)}${cap?' / '+fmt(cap):''}</span></div>${budgetLine}</div>`;}).join('');['ov-cat-breakdown','cat-breakdown-detail'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=html;});}
+function renderFoodTracker(){const tx=getTx();const foodCat=getCats().find(c=>c.name==='Mat & hushåll');const foodCatId=foodCat?String(foodCat.id):'1001';const foodSpent=tx.filter(t=>String(t.cat)===foodCatId).reduce((s,t)=>s+t.amount,0);const left=Math.max(FOOD_BUDGET-foodSpent,0);const today=new Date();const daysInMonth=new Date(currentYear,currentMonth+1,0).getDate();const isCurrentMonth=(today.getFullYear()===currentYear&&today.getMonth()===currentMonth);const dayOfMonth=isCurrentMonth?today.getDate():daysInMonth;const daysLeft=Math.max(daysInMonth-dayOfMonth+1,1);const todayBudget=Math.round(left/daysLeft);const pct=Math.min(Math.round(foodSpent/FOOD_BUDGET*100),100);const over=foodSpent>FOOD_BUDGET;const setEl=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};setEl('food-today-budget',over?'Över budget!':fmt(todayBudget));setEl('food-today-sub',`${daysLeft} dagar kvar i månaden`);setEl('food-left',fmt(left));setEl('food-spent',fmt(foodSpent));setEl('food-pct-txt',`${pct}% av ${fmt(FOOD_BUDGET)}`);setEl('food-days-left',`${daysLeft} dagar kvar`);const bar=document.getElementById('food-bar');if(bar){bar.style.width=pct+'%';bar.style.background=over?'var(--red)':pct>75?'var(--amber)':'var(--green)';}const msg=document.getElementById('food-msg');if(msg){if(over)msg.innerHTML=`<div class="food-warning">⚠️ Du har gått ${fmt(foodSpent-FOOD_BUDGET)} över matbudgeten</div>`;else if(pct<50&&daysLeft<15)msg.innerHTML=`<div class="food-great">🎉 Bra jobbat! Bara ${pct}% spenderat av matbudgeten</div>`;else msg.innerHTML='';}}
+function getFixed(){return load('budget_fixed_global',[]);}
+function saveFixed(f){save('budget_fixed_global',f);}
+function getPaid(){return load(getKey('fixed_paid'),{});}
+function savePaid(s){save(getKey('fixed_paid'),s);}
+function addFixed(){const name=document.getElementById('fixed-name').value.trim();const amount=parseFloat(document.getElementById('fixed-amount').value);const cat=document.getElementById('fixed-cat').value;if(!name||!amount||amount<=0)return;if(!selectedCardFixed){alert('Välj betalmetod');return;}const items=getFixed();items.push({id:Date.now(),name,amount,card:selectedCardFixed,cat:cat||null,who:selectedWhoFixed});saveFixed(items);document.getElementById('fixed-name').value='';document.getElementById('fixed-amount').value='';renderFixed();renderOverview();}
+function togglePaid(id){const s=getPaid();s[id]=!s[id];savePaid(s);renderFixed();}
+function deleteFixed(id){saveFixed(getFixed().filter(f=>f.id!==id));const s=getPaid();delete s[id];savePaid(s);renderFixed();renderOverview();}
+function renderFixed(){const all=getFixed(),status=getPaid();const items=fixedFilter==='all'?all:all.filter(f=>f.who===fixedFilter);const list=document.getElementById('fixed-list');const totalRow=document.getElementById('fixed-total-row');if(!list)return;const meTotal=all.filter(f=>f.who==='me').reduce((s,f)=>s+f.amount,0);const bothTotal=all.filter(f=>f.who==='both').reduce((s,f)=>s+f.amount,0);const sm=document.getElementById('split-me');const sb=document.getElementById('split-both');if(sm)sm.textContent=fmt(meTotal);if(sb)sb.textContent=fmt(bothTotal);if(items.length===0){list.innerHTML='<div class="tx-empty">Inga fasta utgifter</div>';if(totalRow)totalRow.style.display='none';return;}const total=items.reduce((s,f)=>s+f.amount,0);document.getElementById('fixed-total-val').textContent=fmt(total);if(totalRow)totalRow.style.display='flex';list.innerHTML=items.map(f=>{const paid=!!status[f.id];return`<div class="fixed-item ${paid?'fixed-paid':''}"><div class="fixed-item-left"><div class="fixed-item-name">${f.name}</div><div class="fixed-item-meta">${cardBadge(f.card)}${whoBadge(f.who||'me')}${f.cat?catBadge(f.cat):''}</div></div><div class="fixed-item-right"><span class="fixed-item-amount">${fmt(f.amount)}</span><button class="check-btn ${paid?'checked':''}" onclick="togglePaid(${f.id})">${paid?'✓':''}</button><button class="delete-fixed-btn" onclick="deleteFixed(${f.id})">✕</button></div></div>`;}).join('');}
+function getTx(){return load(getKey('tx'),[]);}
+function saveTx(tx){save(getKey('tx'),tx);}
+function addTx(){const desc=document.getElementById('tx-desc').value.trim()||'Köp';const amount=parseFloat(document.getElementById('tx-amount').value);const cat=document.getElementById('tx-cat').value;if(!amount||amount<=0)return;const tx=getTx();tx.push({id:Date.now(),desc,amount,card:selectedCardTx,cat:cat||null,who:selectedWhoTx,date:new Date().toLocaleDateString('sv-SE')});saveTx(tx);document.getElementById('tx-desc').value='';document.getElementById('tx-amount').value='';renderTx();renderOverview();renderCatBreakdown();renderFoodTracker();checkAmexAlert();}
+function deleteTx(id){saveTx(getTx().filter(t=>t.id!==id));renderTx();renderOverview();renderCatBreakdown();renderFoodTracker();}
+function resetTx(){if(!confirm('Nollställa alla köp?'))return;saveTx([]);renderTx();renderOverview();renderCatBreakdown();renderFoodTracker();}
+function setTxFilter(el){txFilter=el.dataset.filter;document.querySelectorAll('.filter-chip').forEach(c=>c.classList.toggle('active',c.dataset.filter===txFilter));renderTx();}
+function renderTx(){const all=getTx();const cards=['amex','klarna','hb','swish','other'];const totals={};cards.forEach(c=>totals[c]=all.filter(t=>t.card===c).reduce((s,t)=>s+t.amount,0));const bdgC={amex:'badge-amex',klarna:'badge-klarna',hb:'badge-hb',swish:'badge-swish',other:'badge-other'};const bdgL={amex:'Amex',klarna:'Klarna',hb:'HB',swish:'Swish',other:'Annat'};const ct=document.getElementById('card-totals');if(ct)ct.innerHTML=cards.filter(c=>totals[c]>0).map(c=>`<span class="card-badge ${bdgC[c]}" style="padding:5px 10px;font-size:11px;">${bdgL[c]}: ${fmt(totals[c])}</span>`).join('');const filtered=txFilter==='all'?all:all.filter(t=>t.card===txFilter);const list=document.getElementById('tx-list');if(!list)return;if(filtered.length===0){list.innerHTML='<div class="tx-empty">Inga köp loggade</div>';return;}list.innerHTML=[...filtered].reverse().map(t=>`<div class="tx-item"><div class="tx-left"><span class="tx-desc">${t.desc}</span><div class="tx-meta">${t.date} ${cardBadge(t.card)}${whoBadge(t.who||'me')}${t.cat?catBadge(t.cat):''}</div></div><div class="tx-right"><span class="tx-amount">${fmt(t.amount)}</span><button class="tx-delete" onclick="deleteTx(${t.id})">✕</button></div></div>`).join('');}
+function checkAmexAlert(){const tx=getTx();const amexSpent=tx.filter(t=>t.card==='amex').reduce((s,t)=>s+t.amount,0);const today=new Date().getDate();const daysInMonth=new Date(currentYear,currentMonth+1,0).getDate();if(today<=daysInMonth/2&&amexSpent>AMEX_CAP*0.5){celebrate('⚡','Halvtidsvarning!',`Du har spenderat ${fmt(amexSpent)} på Amex och är bara halvvägs! Bromsa lite!`);}}
+function getStreak(){return load('budget_streak',0);}
+function saveStreak(s){save('budget_streak',s);}
+function renderStreak(){const streak=getStreak();const el=document.getElementById('streak-text');const sub=document.getElementById('streak-sub');const emoji=document.getElementById('streak-emoji');if(!el)return;if(streak===0){el.textContent='Ingen streak än';sub.textContent='Håll Amex under 15 000 kr för att starta!';}else{el.textContent=`${streak} månad${streak>1?'er':''} i rad`;sub.textContent='Du håller budgeten — fortsätt så!';if(emoji)emoji.textContent=streak>=3?'🔥🔥🔥':streak>=2?'🔥🔥':'🔥';}}
+function celebrate(emoji,title,sub){document.getElementById('cel-emoji').textContent=emoji;document.getElementById('cel-title').textContent=title;document.getElementById('cel-sub').textContent=sub;document.getElementById('celebrate').classList.add('show');}
+function closeCelebrate(){document.getElementById('celebrate').classList.remove('show');}
+function renderSalaryBreakdown(){const fixedTotal=getFixed().reduce((s,f)=>s+f.amount,0);const spendingTotal=getTx().reduce((s,t)=>s+t.amount,0);const savingsTotal=9000;const remaining=Math.max(INCOME-fixedTotal-spendingTotal-savingsTotal,0);const total=INCOME;const items=[{label:'Fasta utgifter',val:fixedTotal,color:'#5C9BE0'},{label:'Köp denna månad',val:spendingTotal,color:'#E0935C'},{label:'Sparande',val:savingsTotal,color:'#5CB85C'},{label:'Kvar',val:remaining,color:'#C4C4C4'}];const el=document.getElementById('salary-breakdown');if(!el)return;const barHtml=`<div style="display:flex;border-radius:99px;overflow:hidden;height:14px;margin-bottom:14px;">${items.map(i=>`<div style="width:${Math.round(i.val/total*100)}%;background:${i.color};min-width:${i.val>0?'3px':'0'};"></div>`).join('')}</div>`;const legendHtml=`<div class="donut-legend">${items.map(i=>`<div class="donut-legend-item"><div class="donut-dot" style="background:${i.color}"></div><span style="flex:1">${i.label}</span><span style="font-family:'DM Mono',monospace;font-size:12px;">${fmt(i.val)}</span></div>`).join('')}</div>`;el.innerHTML=barHtml+legendHtml;}
+function getSavingsTx(){return load('budget_savings_global',[]);}
+function saveSavingsTx(tx){save('budget_savings_global',tx);}
+function addSavings(){const val=parseFloat(document.getElementById('savings-input').value);if(!val||val<=0)return;const tx=getSavingsTx();tx.push({id:Date.now(),amount:val,date:new Date().toLocaleDateString('sv-SE')});saveSavingsTx(tx);document.getElementById('savings-input').value='';renderSavings();renderOverview();const total=tx.reduce((s,t)=>s+t.amount,0);if(total>=SAVINGS_GOAL)celebrate('🎉','Buffert uppnådd!','Du har sparat ihop hela bufferten på 57 000 kr! Fantastiskt jobbat!');}
+function deleteSaving(id){saveSavingsTx(getSavingsTx().filter(t=>t.id!==id));renderSavings();renderOverview();}
+function renderSavings(){const tx=getSavingsTx();const total=tx.reduce((s,t)=>s+t.amount,0);const pct=Math.min(total/SAVINGS_GOAL*100,100);const left=Math.max(SAVINGS_GOAL-total,0);const eta=left>0?'~'+Math.ceil(left/8000)+' mån kvar':'Mål uppnått! 🎉';const ids={'savings-amount':fmt(total),'ov-savings':fmt(total)};Object.entries(ids).forEach(([id,v])=>{const el=document.getElementById(id);if(el)el.textContent=v;});['savings-bar','ov-savings-bar'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.width=pct+'%';});const lt=left>0?fmt(left)+' kvar':'Mål uppnått! 🎉';['savings-left','ov-savings-left'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=lt;});['savings-eta','ov-savings-eta'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=eta;});const list=document.getElementById('savings-list');if(!list)return;if(tx.length===0){list.innerHTML='<div class="tx-empty">Inga insättningar ännu</div>';return;}list.innerHTML=[...tx].reverse().map(t=>`<div class="tx-item"><div class="tx-left"><span class="tx-desc">${t.date}</span></div><div class="tx-right"><span class="tx-amount">${fmt(t.amount)}</span><button class="tx-delete" onclick="deleteSaving(${t.id})">✕</button></div></div>`).join('');}
+function addChild(n){const val=parseFloat(document.getElementById(`child${n}-input`).value);if(!val||val<=0)return;save(`budget_child${n}`,load(`budget_child${n}`,0)+val);document.getElementById(`child${n}-input`).value='';renderChildren();}
+function renderChildren(){[1,2].forEach(n=>{const el=document.getElementById(`child${n}-amount`);if(el)el.textContent=fmt(load(`budget_child${n}`,0));});}
+function renderOverview(){const tx=getTx();const amexSpent=tx.filter(t=>t.card==='amex').reduce((s,t)=>s+t.amount,0);const allSpent=tx.reduce((s,t)=>s+t.amount,0);const fixedTotal=getFixed().reduce((s,f)=>s+f.amount,0);const pct=Math.min(amexSpent/AMEX_CAP*100,100);const left=AMEX_CAP-amexSpent;const setEl=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};setEl('ov-spent',fmt(amexSpent));setEl('ov-left',left>=0?fmt(left)+' kvar':fmt(-left)+' över');setEl('ov-pct',Math.round(pct)+'%');setEl('ov-fixed',fmtShort(fixedTotal));const bar=document.getElementById('ov-bar');if(bar)bar.style.width=pct+'%';const pill=document.getElementById('ov-pill');if(pill){if(pct<60){if(bar)bar.style.background='var(--green)';pill.className='status-pill pill-green';pill.textContent='Bra läge ✓';}else if(pct<90){if(bar)bar.style.background='var(--amber)';pill.className='status-pill pill-amber';pill.textContent='Var försiktig ⚡';}else{if(bar)bar.style.background='var(--red)';pill.className='status-pill pill-red';pill.textContent=amexSpent>AMEX_CAP?'Över taket ✕':'Snart slut ⚠';}}const free=INCOME-fixedTotal-allSpent-9000;const freeEl=document.getElementById('ov-free');if(freeEl){freeEl.textContent=fmtShort(free);freeEl.style.color=free>=0?'var(--green)':'var(--red)';}renderSalaryBreakdown();}
+function fmt(n){return Math.round(n).toLocaleString('sv-SE')+' kr';}
+function fmtShort(n){return Math.round(n).toLocaleString('sv-SE');}
+function render(){document.getElementById('monthLabel').textContent=monthNames[currentMonth]+' '+currentYear;buildColorPicker();populateCatSelects();renderFixed();renderTx();renderSavings();renderChildren();renderOverview();renderCats();renderCatBreakdown();renderFoodTracker();renderStreak();}
+render();
+</script>
+</body>
+</html>
